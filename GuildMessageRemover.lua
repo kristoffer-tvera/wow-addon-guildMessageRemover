@@ -6,8 +6,6 @@ end
 GuildMessageRemover = {};
 local _, L = ...;
 
-print("loaded");
-
 -- Checks if the message is destroyable
 function GuildMessageRemover:CanDestroyMessage(clubId, streamId, messageId)
     local messageInfo = C_Club.GetMessageInfo(clubId, streamId, messageId);
@@ -27,12 +25,9 @@ end
 
 -- Allows for toggling on and off
 function GuildMessageRemover:Enable(enabled)
-    print("x");
     if enabled then
-        print("y");
         GuildMessageRemover.frame:RegisterEvent("CLUB_MESSAGE_ADDED");
     else 
-        print("z");
         GuildMessageRemover.frame:UnregisterEvent("CLUB_MESSAGE_ADDED");
     end
 end

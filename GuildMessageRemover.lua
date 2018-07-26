@@ -25,7 +25,6 @@ function GuildMessageRemover:CanDestroyMessage(clubId, streamId, messageId)
     return true;
 end
 
-
 -- Allows for toggling on and off
 function GuildMessageRemover:Enable(enabled)
     print("x");
@@ -40,10 +39,6 @@ end
 
 -- Triggers on new message in guild chat
 local function GuildMessageRemoverEventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        GuildMessageRemover:Enable(GuildMessageRemoverEnabled);
-    end
-
     local arg1, arg2, arg3 = ...;
     if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
         retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);

@@ -3,6 +3,10 @@ if GuildMessageRemoverEnabled == nil then
     GuildMessageRemoverEnabled = true;
 end
 
+if GuildMessageRemoverGlobal == nil then
+    GuildMessageRemoverGlobal = false;
+end
+
 GuildMessageRemover = {};
 local _, L = ...;
 
@@ -35,9 +39,20 @@ end
 -- Triggers on new message in guild chat
 local function GuildMessageRemoverEventHandler(self, event, ...)
     local arg1, arg2, arg3 = ...;
-    if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
-        retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
+
+    if GuildMessageRemoverGlobal then
+        if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
+            retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
+        end
+    else 
+        if arg1 == C_Club.GetGuildClubId() then 
+            if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
+                retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
+            end
+        end
     end
+
+    
 end
 
 GuildMessageRemover.frame = CreateFrame("FRAME", "GuildMessageRemoverFrame");

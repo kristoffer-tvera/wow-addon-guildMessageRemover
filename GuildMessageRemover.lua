@@ -29,15 +29,6 @@ function GuildMessageRemover:CanDestroyMessage(clubId, streamId, messageId)
         return true;
     end
     return false;
-
-
-    -- if not messageInfo.author.isSelf and not privileges.canDestroyOtherMessage then
-    --     return false;
-    -- elseif messageInfo.author.isSelf and not privileges.canDestroyOwnMessage then
-    --     return false;
-    -- end
-    
-    -- return true;
 end
 
 -- Allows for toggling on and off
@@ -65,7 +56,6 @@ local function GuildMessageRemoverEventHandler(self, event, ...)
         end
     end
 
-    
 end
 
 GuildMessageRemover.frame = CreateFrame("FRAME", "GuildMessageRemoverFrame");

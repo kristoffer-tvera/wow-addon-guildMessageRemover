@@ -32,7 +32,6 @@ function GuildMessageRemover_config:createTextFrame(parent, text, fontsize, heig
     return fontFrame;
 end
 
-
 GuildMessageRemover_config.panel = CreateFrame( "Frame", "GuildMessageRemoverConfigFrame", UIParent );
 GuildMessageRemover_config.panel.name = capitalizedAddonName;
 InterfaceOptions_AddCategory(GuildMessageRemover_config.panel);
@@ -55,10 +54,17 @@ local function LoadSettingsAndConfig()
     GuildMessageRemover_config.enableGlobalCheckbox:SetScript("OnClick", 
         function()
             GuildMessageRemoverGlobal = GuildMessageRemover_config.enableGlobalCheckbox:GetChecked();
-            --GuildMessageRemover:Enable(GuildMessageRemoverEnabled);
         end
     );
     
+    GuildMessageRemover_config.enableEverythingCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Delete everyones messages"] , L["Requires that you actually have permission to delete other peoples messages"]);
+    GuildMessageRemover_config.enableEverythingCheckbox:SetChecked(GuildMessageRemoverEverything);
+    GuildMessageRemover_config.enableEverythingCheckbox:SetScript("OnClick", 
+        function()
+            GuildMessageRemoverEverything = GuildMessageRemover_config.enableEverythingCheckbox:GetChecked();
+        end
+    );
+
     local githubUrl = 'https://github.com/kristoffer-tvera/wow-addon-borderless';
     
     GuildMessageRemover_config.credits = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "Made by bzl#2429", 16, 1);

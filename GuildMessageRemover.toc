@@ -6,7 +6,7 @@
 ## Notes: Removes your messages from Guildchat
 ## Notes-frFR: Removes your messages from Guildchat
 ## Notes-deDE: Removes your messages from Guildchat
-## SavedVariables: GuildMessageRemoverEnabled, GuildMessageRemoverGlobal
+## SavedVariables: GuildMessageRemoverEnabled, GuildMessageRemoverGlobal, GuildMessageRemoverEverything
 
 GuildMessageRemover_localization.lua
 GuildMessageRemover_localization.deDE.lua

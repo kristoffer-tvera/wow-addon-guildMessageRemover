@@ -7,6 +7,10 @@ if GuildMessageRemoverGlobal == nil then
     GuildMessageRemoverGlobal = false;
 end
 
+if GuildMessageRemoverEverything == nil then
+    GuildMessageRemoverEverything = false;
+end
+
 GuildMessageRemover = {};
 local _, L = ...;
 
@@ -18,13 +22,22 @@ function GuildMessageRemover:CanDestroyMessage(clubId, streamId, messageId)
     end
     
     local privileges = C_Club.GetClubPrivileges(clubId);
-    if not messageInfo.author.isSelf and not privileges.canDestroyOtherMessage then
-        return false;
-    elseif messageInfo.author.isSelf and not privileges.canDestroyOwnMessage then
-        return false;
+
+    if messageInfo.author.isSelf and privileges.canDestroyOwnMessage then
+        return true;
+    elseif privileges.canDestroyOtherMessage and GuildMessageRemoverEverything then
+        return true;
     end
+    return false;
+
+
+    -- if not messageInfo.author.isSelf and not privileges.canDestroyOtherMessage then
+    --     return false;
+    -- elseif messageInfo.author.isSelf and not privileges.canDestroyOwnMessage then
+    --     return false;
+    -- end
     
-    return true;
+    -- return true;
 end
 
 -- Allows for toggling on and off

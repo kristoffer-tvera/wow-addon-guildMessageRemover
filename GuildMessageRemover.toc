@@ -2,7 +2,7 @@
 ## Title: GuildMessageRemover
 ## Title-frFR: GuildMessageRemover
 ## Title-deDE: GuildMessageRemover
-## Version: v1.0
+## Version: v8.1.0
 ## Notes: Removes your messages from Guildchat
 ## Notes-frFR: Removes your messages from Guildchat
 ## Notes-deDE: Removes your messages from Guildchat

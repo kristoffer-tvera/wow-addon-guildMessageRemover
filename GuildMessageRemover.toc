@@ -1,8 +1,8 @@
-## Interface: 80200
+## Interface: 80300
 ## Title: GuildMessageRemover
 ## Title-frFR: GuildMessageRemover
 ## Title-deDE: GuildMessageRemover
-## Version: v8.2.0
+## Version: v8.3.0
 ## Notes: Removes your messages from Guildchat
 ## Notes-frFR: Removes your messages from Guildchat
 ## Notes-deDE: Removes your messages from Guildchat

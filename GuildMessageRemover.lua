@@ -11,6 +11,10 @@ if GuildMessageRemoverEverything == nil then
     GuildMessageRemoverEverything = false;
 end
 
+if GuildMessageRemoverOfficer == nil then
+    GuildMessageRemoverOfficer = false;
+end
+
 GuildMessageRemover = {};
 local _, L = ...;
 
@@ -51,11 +55,17 @@ local function GuildMessageRemoverEventHandler(self, event, ...)
     else 
         if arg1 == C_Club.GetGuildClubId() then 
             if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
-                retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
+                if arg2 == 2 and GuildMessageRemoverOfficer then
+                    retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
+                end
+
+                if arg1 == 1 then 
+                    retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
+                end
+
             end
         end
     end
-
 end
 
 GuildMessageRemover.frame = CreateFrame("FRAME", "GuildMessageRemoverFrame");

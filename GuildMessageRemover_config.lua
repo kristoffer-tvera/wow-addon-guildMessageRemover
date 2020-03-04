@@ -65,6 +65,14 @@ local function LoadSettingsAndConfig()
         end
     );
 
+    GuildMessageRemover_config.enableOfficerCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Enable for Officer Chat (guild)"] , L["Requires that you actually have permission to delete other peoples messages"]);
+    GuildMessageRemover_config.enableOfficerCheckbox:SetChecked(GuildMessageRemoverOfficer);
+    GuildMessageRemover_config.enableOfficerCheckbox:SetScript("OnClick", 
+        function()
+            GuildMessageRemoverOfficer = GuildMessageRemover_config.enableOfficerCheckbox:GetChecked();
+        end
+    );
+
     local githubUrl = 'https://github.com/kristoffer-tvera/wow-addon-borderless';
     
     GuildMessageRemover_config.credits = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "Made by bzl#2429", 16, 1);

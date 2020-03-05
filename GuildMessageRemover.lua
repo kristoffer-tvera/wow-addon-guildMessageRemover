@@ -59,7 +59,7 @@ local function GuildMessageRemoverEventHandler(self, event, ...)
                     retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
                 end
 
-                if arg1 == 1 then 
+                if arg2 == 1 then 
                     retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
                 end
 

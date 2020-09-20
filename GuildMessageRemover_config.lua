@@ -2,12 +2,11 @@ GuildMessageRemover_config = {};
 local _, L = ...;
 local addonName = L["guildmessageremover"];
 local capitalizedAddonName = string.gsub(addonName, "(%w)", string.upper, 1); --Capitalize
-local y_increment = -25;
+local y_increment = -30;
 local x_indentation = 5;
 local unique = 1;
 
 function GuildMessageRemover_config:createCheckbutton(parent, displayname, tooltip)
-    
 	local checkbutton = CreateFrame("CheckButton", "GuildMessageRemoverConfigFrameCheckbox" .. unique, parent, "ChatConfigCheckButtonTemplate");
     checkbutton:SetPoint("TOPLEFT", x_indentation, (y_increment * unique));
     -- checkbutton_GlobalNameText:SetText(displayname);
@@ -30,6 +29,18 @@ function GuildMessageRemover_config:createTextFrame(parent, text, fontsize, heig
 
     unique = unique + 1;
     return fontFrame;
+end
+
+function GuildMessageRemover_config:createButton(parent, displayname, tooltip)
+	local button = CreateFrame("Button", "GuildMessageRemoverConfigFrameButton" .. unique, parent, "OptionsButtonTemplate");
+    button:SetPoint("TOPLEFT", x_indentation, (y_increment * unique));
+    button:SetText(displayname);
+    button:SetWidth(250)
+	button:SetHeight(25)
+    button.tooltip = tooltip;
+    
+    unique = unique + 1;
+	return button;
 end
 
 GuildMessageRemover_config.panel = CreateFrame( "Frame", "GuildMessageRemoverConfigFrame", UIParent );
@@ -73,9 +84,37 @@ local function LoadSettingsAndConfig()
         end
     );
 
-    local githubUrl = 'https://github.com/kristoffer-tvera/wow-addon-borderless';
+    GuildMessageRemover_config.last10 = GuildMessageRemover_config:createButton(GuildMessageRemover_config.panel, "Last 10 messages" , "Remove last 10 messages");
+    GuildMessageRemover_config.last10:SetScript("OnClick", 
+        function()
+            GuildMessageRemover:WipeLastMessages(10);
+        end 
+    );
+
+    GuildMessageRemover_config.last50 = GuildMessageRemover_config:createButton(GuildMessageRemover_config.panel, "Last 50 messages" , "Remove last 50 messages");
+    GuildMessageRemover_config.last50:SetScript("OnClick", 
+        function()
+            GuildMessageRemover:WipeLastMessages(50);
+        end 
+    );
+
+    GuildMessageRemover_config.last100 = GuildMessageRemover_config:createButton(GuildMessageRemover_config.panel, "Last 100 messages" , "Remove last 100 messages");
+    GuildMessageRemover_config.last100:SetScript("OnClick", 
+        function()
+            GuildMessageRemover:WipeLastMessages(100);
+        end 
+    );
+
+    GuildMessageRemover_config.last200 = GuildMessageRemover_config:createButton(GuildMessageRemover_config.panel, "Last 200 messages" , "Remove last 200 messages");
+    GuildMessageRemover_config.last200:SetScript("OnClick", 
+        function()
+            GuildMessageRemover:WipeLastMessages(200);
+        end 
+    );
+
+    local githubUrl = 'https://github.com/kristoffer-tvera/wow-addon-guildMessageRemover';
     
-    GuildMessageRemover_config.credits = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "Made by bzl#2429", 16, 1);
+    GuildMessageRemover_config.credits = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "Made by EU - bzl#2429", 16, 1);
     GuildMessageRemover_config.help = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "For ideas, suggestions, issues, or help with translations, " .. githubUrl, 14, 3);
     
     GuildMessageRemover:Enable(GuildMessageRemoverEnabled);

@@ -44,6 +44,18 @@ function GuildMessageRemover:Enable(enabled)
     end
 end
 
+function GuildMessageRemover:WipeLastMessages(count)
+    local guildClubId = C_Club.GetGuildClubId();
+    local lastMessageId = C_Club.GetMessageRanges(guildClubId, "1")[1].newestMessageId;
+
+	local lastMessages = C_Club.GetMessagesBefore(guildClubId, "1", lastMessageId, count);
+    for key,message in pairs(lastMessages) do
+        if not message.destroyed then
+            pcall (C_Club.DestroyMessage, guildClubId, "1", message.messageId);
+        end
+    end
+end
+
 -- Triggers on new message in guild chat
 local function GuildMessageRemoverEventHandler(self, event, ...)
     local arg1, arg2, arg3 = ...;

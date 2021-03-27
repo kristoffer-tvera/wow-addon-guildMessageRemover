@@ -49,7 +49,7 @@ InterfaceOptions_AddCategory(GuildMessageRemover_config.panel);
 
 local function LoadSettingsAndConfig()
     GuildMessageRemover_config.panel:UnregisterEvent("ADDON_LOADED");
-    GuildMessageRemover_config.introFrame = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "-->> " .. capitalizedAddonName .. " <<--", 25, 1);
+    GuildMessageRemover_config.introFrame = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, capitalizedAddonName , 25, 1);
 
     GuildMessageRemover_config.enableCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Enabled"] , L["Instantly delete your guild-messages from the new Communities window"]);
     GuildMessageRemover_config.enableCheckbox:SetChecked(GuildMessageRemoverEnabled);
@@ -60,19 +60,12 @@ local function LoadSettingsAndConfig()
         end
     );
 
-    GuildMessageRemover_config.enableGlobalCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Enabled for ALL channels"] , L["Instantly delete your messages from  all of the new Communities windows"]);
-    GuildMessageRemover_config.enableGlobalCheckbox:SetChecked(GuildMessageRemoverGlobal);
-    GuildMessageRemover_config.enableGlobalCheckbox:SetScript("OnClick", 
-        function()
-            GuildMessageRemoverGlobal = GuildMessageRemover_config.enableGlobalCheckbox:GetChecked();
-        end
-    );
-    
     GuildMessageRemover_config.enableEverythingCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Delete everyones messages"] , L["Requires that you actually have permission to delete other peoples messages"]);
     GuildMessageRemover_config.enableEverythingCheckbox:SetChecked(GuildMessageRemoverEverything);
     GuildMessageRemover_config.enableEverythingCheckbox:SetScript("OnClick", 
         function()
-            GuildMessageRemoverEverything = GuildMessageRemover_config.enableEverythingCheckbox:GetChecked();
+            local isChecked = GuildMessageRemover_config.enableEverythingCheckbox:GetChecked();
+            GuildMessageRemoverEverything = isChecked;
         end
     );
 
@@ -80,7 +73,36 @@ local function LoadSettingsAndConfig()
     GuildMessageRemover_config.enableOfficerCheckbox:SetChecked(GuildMessageRemoverOfficer);
     GuildMessageRemover_config.enableOfficerCheckbox:SetScript("OnClick", 
         function()
-            GuildMessageRemoverOfficer = GuildMessageRemover_config.enableOfficerCheckbox:GetChecked();
+            local isChecked = GuildMessageRemover_config.enableOfficerCheckbox:GetChecked();
+            GuildMessageRemoverOfficer = isChecked;
+
+            if GuildMessageRemover_config.enableOfficerEverythingCheckbox:GetChecked() then
+                GuildMessageRemover_config.enableOfficerEverythingCheckbox:SetChecked(false);
+                GuildMessageRemoverOfficerEverything = false;
+            end
+            
+        end
+    );
+
+    GuildMessageRemover_config.enableOfficerEverythingCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Enable for everyones messages in Officer Chat (guild)"] , L["Requires that you actually have permission to delete other peoples messages"]);
+    GuildMessageRemover_config.enableOfficerEverythingCheckbox:SetChecked(GuildMessageRemoverOfficerEverything);
+    GuildMessageRemover_config.enableOfficerEverythingCheckbox:SetScript("OnClick", 
+        function()
+            local isChecked = GuildMessageRemover_config.enableOfficerEverythingCheckbox:GetChecked();
+            GuildMessageRemoverOfficerEverything = isChecked;
+
+            if GuildMessageRemover_config.enableOfficerCheckbox:GetChecked() then
+                GuildMessageRemover_config.enableOfficerCheckbox:SetChecked(false);
+                GuildMessageRemoverOfficer = false;
+            end
+        end
+    );
+
+    GuildMessageRemover_config.enableGlobalCheckbox = GuildMessageRemover_config:createCheckbutton(GuildMessageRemover_config.panel, L["Enabled for ALL channels"] , L["Instantly delete your messages from  all of the new Communities windows"]);
+    GuildMessageRemover_config.enableGlobalCheckbox:SetChecked(GuildMessageRemoverGlobal);
+    GuildMessageRemover_config.enableGlobalCheckbox:SetScript("OnClick", 
+        function()
+            GuildMessageRemoverGlobal = GuildMessageRemover_config.enableGlobalCheckbox:GetChecked();
         end
     );
 
@@ -114,8 +136,8 @@ local function LoadSettingsAndConfig()
 
     local githubUrl = 'https://github.com/kristoffer-tvera/wow-addon-guildMessageRemover';
     
-    GuildMessageRemover_config.credits = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "Made by EU - bzl#2429", 16, 1);
-    GuildMessageRemover_config.help = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "For ideas, suggestions, issues, or help with translations, " .. githubUrl, 14, 3);
+    GuildMessageRemover_config.credits = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, "Made by bzl#2429 (EU)", 16, 1);
+    GuildMessageRemover_config.help = GuildMessageRemover_config:createTextFrame(GuildMessageRemover_config.panel, githubUrl, 14, 3);
     
     GuildMessageRemover:Enable(GuildMessageRemoverEnabled);
 end

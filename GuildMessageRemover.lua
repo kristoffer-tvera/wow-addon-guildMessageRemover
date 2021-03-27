@@ -15,6 +15,10 @@ if GuildMessageRemoverOfficer == nil then
     GuildMessageRemoverOfficer = false;
 end
 
+if GuildMessageRemoverOfficerEverything == nil then
+    GuildMessageRemoverOfficerEverything = false;
+end
+
 GuildMessageRemover = {};
 local _, L = ...;
 
@@ -26,12 +30,38 @@ function GuildMessageRemover:CanDestroyMessage(clubId, streamId, messageId)
     end
     
     local privileges = C_Club.GetClubPrivileges(clubId);
+    local guild = C_Club.GetGuildClubId();
 
-    if messageInfo.author.isSelf and privileges.canDestroyOwnMessage then
-        return true;
-    elseif privileges.canDestroyOtherMessage and GuildMessageRemoverEverything then
+    -- Deletes your own messages (if you can) in any non-guild channel
+    if clubId ~= guild and messageInfo.author.isSelf and privileges.canDestroyOwnMessage and GuildMessageRemoverGlobal then
         return true;
     end
+
+    -- Deletes everyones messages (if you can) in any non-guild channel
+    if clubId ~= guild and privileges.canDestroyOtherMessage and GuildMessageRemoverGlobal and GuildMessageRemoverEverything then
+        return true;
+    end
+
+    -- Deletes your own messages (if you can) in guild-chats
+    if clubId == guild and streamId ~= 2 and messageInfo.author.isSelf and privileges.canDestroyOwnMessage and GuildMessageRemoverEnabled then
+        return true;
+    end
+
+    -- Deletes everyones messages (if you can) in guild-chats
+    if clubId == guild and streamId ~= 2 and privileges.canDestroyOtherMessage and GuildMessageRemoverEverything then
+        return true;
+    end
+
+    -- Deletes your own messages (if you can) in officer-chat
+    if clubId == guild and streamId == 2 and messageInfo.author.isSelf and privileges.canDestroyOwnMessage and GuildMessageRemoverOfficer then
+        return true;
+    end
+
+    -- Deletes everyones messages (if you can) in officer-chat
+    if clubId == guild and streamId == 2 and privileges.canDestroyOtherMessage and GuildMessageRemoverOfficerEverything then
+        return true;
+    end
+
     return false;
 end
 
@@ -44,40 +74,26 @@ function GuildMessageRemover:Enable(enabled)
     end
 end
 
-function GuildMessageRemover:WipeLastMessages(count)
+function GuildMessageRemover:WipeLastMessages(count, streamid)
     local guildClubId = C_Club.GetGuildClubId();
-    local lastMessageId = C_Club.GetMessageRanges(guildClubId, "1")[1].newestMessageId;
+    local lastMessageId = C_Club.GetMessageRanges(guildClubId, streamid)[1].newestMessageId;
 
-	local lastMessages = C_Club.GetMessagesBefore(guildClubId, "1", lastMessageId, count);
+	local lastMessages = C_Club.GetMessagesBefore(guildClubId, streamid, lastMessageId, count);
     for key,message in pairs(lastMessages) do
         if not message.destroyed then
-            pcall (C_Club.DestroyMessage, guildClubId, "1", message.messageId);
+            pcall (C_Club.DestroyMessage, guildClubId, streamid, message.messageId);
         end
     end
 end
 
 -- Triggers on new message in guild chat
 local function GuildMessageRemoverEventHandler(self, event, ...)
-    local arg1, arg2, arg3 = ...;
+    local clubId, streamId, messageId = ...;
 
-    if GuildMessageRemoverGlobal then
-        if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
-            retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
-        end
-    else 
-        if arg1 == C_Club.GetGuildClubId() then 
-            if GuildMessageRemover:CanDestroyMessage(arg1, arg2, arg3) then
-                if arg2 == 2 and GuildMessageRemoverOfficer then
-                    retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
-                end
-
-                if arg2 == 1 then 
-                    retOK, ret1 = pcall (C_Club.DestroyMessage, arg1, arg2, arg3);
-                end
-
-            end
-        end
+    if GuildMessageRemover:CanDestroyMessage(clubId, streamId, messageId) then
+        retOK, ret1 = pcall (C_Club.DestroyMessage, clubId, streamId, messageId);
     end
+
 end
 
 GuildMessageRemover.frame = CreateFrame("FRAME", "GuildMessageRemoverFrame");

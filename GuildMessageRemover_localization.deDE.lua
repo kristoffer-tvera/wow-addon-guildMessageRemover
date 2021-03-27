@@ -7,5 +7,6 @@ if GetLocale() == "deDE" then
     L["Instantly delete your guild-messages from the new Communities window"] = "Instantly delete your guild-messages from the new Communities window";
     L["Instantly delete your messages from  all of the new Communities windows"] = "Instantly delete your messages from  all of the new Communities windows";
     L["Enable for Officer Chat (guild)"] = "Enable for Officer Chat (guild)";
+    L["Enable for everyones messages in Officer Chat (guild)"] = "Enable for everyones messages in Officer Chat (guild)";
     L["GuildMessageRemover"] = "GuildMessageRemover"; -- used for slashcommand and interface option panel name
 end

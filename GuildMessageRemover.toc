@@ -1,8 +1,8 @@
-## Interface: 90205
+## Interface: 100000
 ## Title: GuildMessageRemover
 ## Title-frFR: GuildMessageRemover
 ## Title-deDE: GuildMessageRemover
-## Version: v9.2.5
+## Version: v10.0.0
 ## Notes: Removes your messages from Guildchat
 ## Notes-frFR: Removes your messages from Guildchat
 ## Notes-deDE: Removes your messages from Guildchat

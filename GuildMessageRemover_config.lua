@@ -32,7 +32,7 @@ function GuildMessageRemover_config:createTextFrame(parent, text, fontsize, heig
 end
 
 function GuildMessageRemover_config:createButton(parent, displayname, tooltip)
-	local button = CreateFrame("Button", "GuildMessageRemoverConfigFrameButton" .. unique, parent, "OptionsButtonTemplate");
+	local button = CreateFrame("Button", "GuildMessageRemoverConfigFrameButton" .. unique, parent, "UIPanelButtonTemplate");
     button:SetPoint("TOPLEFT", x_indentation, (y_increment * unique));
     button:SetText(displayname);
     button:SetWidth(250)

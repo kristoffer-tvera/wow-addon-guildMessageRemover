@@ -45,7 +45,11 @@ end
 
 GuildMessageRemover_config.panel = CreateFrame( "Frame", "GuildMessageRemoverConfigFrame", UIParent );
 GuildMessageRemover_config.panel.name = capitalizedAddonName;
-InterfaceOptions_AddCategory(GuildMessageRemover_config.panel);
+
+category, layout = Settings.RegisterCanvasLayoutCategory(GuildMessageRemover_config.panel, GuildMessageRemover_config.panel.name,
+    GuildMessageRemover_config.panel.name);
+category.ID = GuildMessageRemover_config.panel.name
+Settings.RegisterAddOnCategory(category);
 
 local function LoadSettingsAndConfig()
     GuildMessageRemover_config.panel:UnregisterEvent("ADDON_LOADED");

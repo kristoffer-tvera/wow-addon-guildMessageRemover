@@ -1,5 +1,5 @@
 ## Interface: 110007
-## Version: v11.0.2
+## Version: v11.0.7
 ## Title: GuildMessageRemover
 ## Title-frFR: GuildMessageRemover
 ## Title-deDE: GuildMessageRemover
